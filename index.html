@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Convert Hex to HSL</h1>
+        <h3>Whoops, looks like I named the repo incorrectly</h3>
+        <textarea name="code" id="" cols="100" rows="30" placeholder="place code here" autofocus></textarea>
+        <br />
+        <button>Convert</button>
+
+        <br />
+        <br />
+        <p>You can tell I spent lots of time working on this.</p>
+
+        <script>
+            document.querySelector('button').addEventListener('click', () => {
+                const textarea = document.querySelector('textarea')
+                textarea.value = convertColors(textarea.value)
+            })
+
+            function convertColors(str) {
+                return str.replaceAll(/#[a-fA-F0-9]{3,6}/g, hexToHSL)
+            }
+
+            // function from CSS Tricks: https://css-tricks.com/converting-color-spaces-in-javascript/
+            function hexToHSL(H) {
+                // Convert hex to RGB first
+                let r = 0,
+                    g = 0,
+                    b = 0
+                if (H.length == 4) {
+                    r = '0x' + H[1] + H[1]
+                    g = '0x' + H[2] + H[2]
+                    b = '0x' + H[3] + H[3]
+                } else if (H.length == 7) {
+                    r = '0x' + H[1] + H[2]
+                    g = '0x' + H[3] + H[4]
+                    b = '0x' + H[5] + H[6]
+                }
+                // Then to HSL
+                r /= 255
+                g /= 255
+                b /= 255
+                let cmin = Math.min(r, g, b),
+                    cmax = Math.max(r, g, b),
+                    delta = cmax - cmin,
+                    h = 0,
+                    s = 0,
+                    l = 0
+
+                if (delta == 0) h = 0
+                else if (cmax == r) h = ((g - b) / delta) % 6
+                else if (cmax == g) h = (b - r) / delta + 2
+                else h = (r - g) / delta + 4
+
+                h = Math.round(h * 60)
+
+                if (h < 0) h += 360
+
+                l = (cmax + cmin) / 2
+                s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1))
+                s = +(s * 100).toFixed(1)
+                l = +(l * 100).toFixed(1)
+
+                return 'hsl(' + Math.round(h) + ', ' + Math.round(s) + '%, ' + Math.round(l) + '%)'
+            }
+        </script>
+    </body>
+</html>
