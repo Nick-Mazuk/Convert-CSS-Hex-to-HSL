@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Convert Hex to HSL</h1>
+        <h3>Whoops, looks like I named the repo incorrectly</h3>
+        <textarea name="code" id="" cols="100" rows="30" placeholder="place code here" autofocus></textarea>
+        <br />
+        <button>Convert</button>
+
+        <br />
+        <br />
+        <p>You can tell I spent lots of time working on this.</p>
+
+        <script>
+            document.querySelector('button').addEventListener('click', () => {
+                const textarea = document.querySelector('textarea')
+                textarea.value = convertColors(textarea.value)
+            })
+
+            function convertColors(str) {
+                return str.replaceAll(/#[a-fA-F0-9]{3,6}/g, hexToRGB)
+            }
+
+            // function from CSS Tricks: https://css-tricks.com/converting-color-spaces-in-javascript/
+            function hexToRGB(h) {
+                let r = 0,
+                    g = 0,
+                    b = 0
+
+                // 3 digits
+                if (h.length == 4) {
+                    r = '0x' + h[1] + h[1]
+                    g = '0x' + h[2] + h[2]
+                    b = '0x' + h[3] + h[3]
+
+                    // 6 digits
+                } else if (h.length == 7) {
+                    r = '0x' + h[1] + h[2]
+                    g = '0x' + h[3] + h[4]
+                    b = '0x' + h[5] + h[6]
+                }
+
+                return `${+r}, ${+g}, ${+b}`
+            }
+        </script>
+    </body>
+</html>
